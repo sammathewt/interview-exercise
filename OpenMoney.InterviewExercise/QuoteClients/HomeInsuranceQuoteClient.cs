@@ -1,4 +1,5 @@
 using System.Linq;
+using OpenMoney.InterviewExercise.Models;
 using OpenMoney.InterviewExercise.Models.Quotes;
 using OpenMoney.InterviewExercise.ThirdParties;
 
@@ -6,7 +7,7 @@ namespace OpenMoney.InterviewExercise.QuoteClients
 {
     public interface IHomeInsuranceQuoteClient
     {
-        HomeInsuranceQuote GetQuote(decimal houseValue);
+        HomeInsuranceQuote GetQuote(GetQuotesRequest getQuotesRequest);
     }
 
     public class HomeInsuranceQuoteClient : IHomeInsuranceQuoteClient
@@ -20,17 +21,17 @@ namespace OpenMoney.InterviewExercise.QuoteClients
             _api = api;
         }
 
-        public HomeInsuranceQuote GetQuote(decimal houseValue)
+        public HomeInsuranceQuote GetQuote(GetQuotesRequest getQuotesRequest)
         {
             // check if request is eligible
-            if (houseValue > 10_000_000m)
+            if (getQuotesRequest.HouseValue > 10_000_000d)
             {
                 return null;
             }
             
             var request = new ThirdPartyHomeInsuranceRequest
             {
-                HouseValue = houseValue,
+                HouseValue = (decimal) getQuotesRequest.HouseValue,
                 ContentsValue = ContentsValue
             };
 

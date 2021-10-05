@@ -19,6 +19,7 @@ Below are a few tasks to get through so we can ship the new feature! Also as Bal
 - Work through the below tasks
 - Tidy up the code as you go
 - Do as much as you can in an hour
+- If you can't finish a task don't panic, just move on
 - Submit a PR for us to review [instructions here]("https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork")
 
 ## Tasks
@@ -42,9 +43,3 @@ Our customers hate unhandled exceptions, as should you, so make our new feature 
 ### Bonus Task
 
 The `MortgageClient` and `HomeInsuranceClient` classes share quite a few similarities, is there anything you could do to reduce some duplication between these 2 classes?
-
-# Todo for dan
-
-- Slim down text in readme
-- Make sure both methods have same signature
-- Make the async stuff a bit more obvious

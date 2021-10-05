@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Moq;
 using OpenMoney.InterviewExercise.Models;
 using OpenMoney.InterviewExercise.Models.Quotes;
@@ -29,7 +28,7 @@ namespace OpenMoney.InterviewExercise.Tests
             };
 
             _mortgageClientMock
-                .Setup(m => m.GetQuote((decimal) houseValue, (decimal) deposit))
+                .Setup(m => m.GetQuote(request))
                 .Returns(new MortgageQuote
                 {
                     MonthlyPayment = 700
@@ -57,7 +56,7 @@ namespace OpenMoney.InterviewExercise.Tests
             };
 
             _homeInsuranceClientMock
-                .Setup(m => m.GetQuote((decimal) houseValue))
+                .Setup(m => m.GetQuote(request))
                 .Returns(new HomeInsuranceQuote
                 {
                     MonthlyPayment = 600

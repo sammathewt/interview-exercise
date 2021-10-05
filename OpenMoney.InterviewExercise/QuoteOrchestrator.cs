@@ -20,13 +20,8 @@ namespace OpenMoney.InterviewExercise
         {
             return new GetQuotesResponse
             {
-                MortgageQuote = _mortgageQuoteClient.GetQuote(
-                    new decimal(request.HouseValue),
-                    new decimal(request.Deposit)
-                ),
-                HomeInsuranceQuote = _homeInsuranceQuoteClient.GetQuote(
-                    new decimal(request.HouseValue)
-                )
+                MortgageQuote = _mortgageQuoteClient.GetQuote(request),
+                HomeInsuranceQuote = _homeInsuranceQuoteClient.GetQuote(request)
             };
         }
     }

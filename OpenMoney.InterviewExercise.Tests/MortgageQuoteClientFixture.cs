@@ -1,4 +1,5 @@
 using Moq;
+using OpenMoney.InterviewExercise.Models;
 using OpenMoney.InterviewExercise.QuoteClients;
 using OpenMoney.InterviewExercise.ThirdParties;
 using Xunit;
@@ -12,11 +13,15 @@ namespace OpenMoney.InterviewExercise.Tests
         [Fact]
         public void GetQuote_ShouldReturnNull_IfHouseValue_Over10Mill()
         {
-            const decimal deposit = 9_000m;
-            const decimal houseValue = 100_000m;
+            const float deposit = 9_000;
+            const float houseValue = 100_000;
             
             var mortgageClient = new MortgageQuoteClient(_apiMock.Object);
-            var quote = mortgageClient.GetQuote(houseValue, deposit);
+            var quote = mortgageClient.GetQuote(new GetQuotesRequest
+            {
+                Deposit = deposit,
+                HouseValue = houseValue
+            });
             
             Assert.Null(quote);
         }
@@ -24,8 +29,8 @@ namespace OpenMoney.InterviewExercise.Tests
         [Fact]
         public void GetQuote_ShouldReturn_AQuote()
         {
-            const decimal deposit = 10_000m;
-            const decimal houseValue = 100_000m;
+            const float deposit = 10_000;
+            const float houseValue = 100_000;
 
             _apiMock
                 .Setup(api => api.GetQuotes(It.IsAny<ThirdPartyMortgageRequest>()))
@@ -35,7 +40,11 @@ namespace OpenMoney.InterviewExercise.Tests
                 });
             
             var mortgageClient = new MortgageQuoteClient(_apiMock.Object);
-            var quote = mortgageClient.GetQuote(houseValue, deposit);
+            var quote = mortgageClient.GetQuote(new GetQuotesRequest
+            {
+                Deposit = deposit,
+                HouseValue = houseValue
+            });
             
             Assert.Equal(300m, (decimal)quote.MonthlyPayment);
         }
