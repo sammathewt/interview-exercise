@@ -34,7 +34,7 @@ namespace OpenMoney.InterviewExercise.QuoteClients
                 MortgageAmount = mortgageAmount
             };
 
-            var response = _api.GetQuotes(request).Result.ToArray();
+            var response = _api.GetQuotes(request).GetAwaiter().GetResult().ToArray();
 
             ThirdPartyMortgageResponse cheapestQuote = null;
             
