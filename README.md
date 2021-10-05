@@ -5,8 +5,6 @@
 - .NET 5 SDK installed on your machine
 - A .NET IDE of your choice
 
-<br />
-
 ## Introduction
 
 A developer on your team, Baldrick, has just quit with no notice period. And good riddance because he was overpaid and made a mess of the codebase...Unfortunately this means you have to pick up the ticket he was working on before he left. As expected, he's done a bad job. The code is a mess, there are bugs to fix, and it's missing an important feature. However, the CEO has an expensive marketing campaign that's going out tonight and you finish work in an hour. Whatever you manage in the next 60 minutes will just have to be enough (the CEO shouldn't have really paid for the marketing campaign yet anyway).
@@ -14,8 +12,6 @@ A developer on your team, Baldrick, has just quit with no notice period. And goo
 The feature you're looking at is a Mortgage and Home Insurance quote provider service. The actual quotes themselves are coming back from third party integrations, the interfaces for the third parties have been provided by our partners so we can't change these.
 
 Below are a few tasks to get through so we can ship the new feature! Also as Baldrick was a complete incompetent, the code he's written is ugly and reads like The Daily Star, not the well written prose we expect. While working through the following tasks please tidy up the code as you go.
-
-<br />
 
 ## Acceptance Criteria
 
@@ -30,16 +26,12 @@ This is the original acceptance criteria for the 2 integrations:
   - Select and return the quote with the lowest monthly payment
   - If the requested house value is greater than 10 million, don't fetch a quote as it the request is not eligible
 
-<br />
-
 ## Summary
 
 - Work through the below tasks
 - Tidy up the code as you go
 - Do as much as you can in an hour
 - Submit a PR for us to review
-
-<br />
 
 ## Tasks
 
