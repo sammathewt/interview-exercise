@@ -47,7 +47,7 @@ QA have also noticed that it seems to be taking longer than expected. As the 3rd
 
 As usual, Baldrick made a token effort to write some unit tests but has made some glaring omissions. Try and identify some areas that are missing test coverage and add them in.
 
-### Task 3 - Error handling
+### Task 4 - Error handling
 
 Our customers hate unhandled exceptions, as should you, so make our new feature handle errors gracefully. It would be nice if we could let our consumers know which quote failed, and still return quotes that succeeded when another has failed.
 
