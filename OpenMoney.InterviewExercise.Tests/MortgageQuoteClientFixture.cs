@@ -7,15 +7,16 @@ namespace OpenMoney.InterviewExercise.Tests
 {
     public class MortgageQuoteClientFixture
     {
-        private readonly Mock<IThirdPartyHomeInsuranceApi> _apiMock = new();
+        private readonly Mock<IThirdPartyMortgageApi> _apiMock = new();
 
         [Fact]
         public void GetQuote_ShouldReturnNull_IfHouseValue_Over10Mill()
         {
-            const decimal houseValue = 10_000_001m;
+            const decimal deposit = 9_000m;
+            const decimal houseValue = 100_000m;
             
-            var mortgageClient = new HomeInsuranceQuoteClient(_apiMock.Object);
-            var quote = mortgageClient.GetQuote(houseValue);
+            var mortgageClient = new MortgageQuoteClient(_apiMock.Object);
+            var quote = mortgageClient.GetQuote(houseValue, deposit);
             
             Assert.Null(quote);
         }
@@ -23,20 +24,20 @@ namespace OpenMoney.InterviewExercise.Tests
         [Fact]
         public void GetQuote_ShouldReturn_AQuote()
         {
+            const decimal deposit = 10_000m;
             const decimal houseValue = 100_000m;
 
             _apiMock
-                .Setup(api => api.GetQuotes(It.Is<ThirdPartyHomeInsuranceRequest>(r =>
-                    r.ContentsValue == HomeInsuranceQuoteClient.ContentsValue && r.HouseValue == houseValue)))
+                .Setup(api => api.GetQuotes(It.IsAny<ThirdPartyMortgageRequest>()))
                 .ReturnsAsync(new[]
                 {
-                    new ThirdPartyHomeInsuranceResponse { MonthlyPayment = 30 }
+                    new ThirdPartyMortgageResponse { MonthlyPayment = 300m }
                 });
             
-            var mortgageClient = new HomeInsuranceQuoteClient(_apiMock.Object);
-            var quote = mortgageClient.GetQuote(houseValue);
+            var mortgageClient = new MortgageQuoteClient(_apiMock.Object);
+            var quote = mortgageClient.GetQuote(houseValue, deposit);
             
-            Assert.Equal(30m, (decimal)quote.MonthlyPayment);
+            Assert.Equal(300m, (decimal)quote.MonthlyPayment);
         }
     }
 }
