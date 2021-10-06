@@ -20,7 +20,7 @@ Below are a few tasks to get through so we can ship the new feature! Also as Bal
 - Tidy up the code as you go
 - Do as much as you can in an hour
 - If you can't finish a task don't panic, just move on
-- Submit a PR for us to review [instructions here]("https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork")
+- Submit a PR for us to review [instructions here](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 
 ## Tasks
 
