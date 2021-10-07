@@ -14,7 +14,7 @@ namespace OpenMoney.InterviewExercise.QuoteClients
     {
         private IThirdPartyHomeInsuranceApi _api;
         
-        public static decimal ContentsValue = 50_000;
+        public decimal contentsValue = 50_000;
 
         public HomeInsuranceQuoteClient(IThirdPartyHomeInsuranceApi api)
         {
@@ -32,7 +32,7 @@ namespace OpenMoney.InterviewExercise.QuoteClients
             var request = new ThirdPartyHomeInsuranceRequest
             {
                 HouseValue = (decimal) getQuotesRequest.HouseValue,
-                ContentsValue = ContentsValue
+                ContentsValue = contentsValue
             };
 
             var response = _api.GetQuotes(request).GetAwaiter().GetResult().ToArray();

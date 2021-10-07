@@ -31,7 +31,7 @@ namespace OpenMoney.InterviewExercise.Tests
 
             _apiMock
                 .Setup(api => api.GetQuotes(It.Is<ThirdPartyHomeInsuranceRequest>(r =>
-                    r.ContentsValue == HomeInsuranceQuoteClient.ContentsValue && r.HouseValue == (decimal) houseValue)))
+                    r.ContentsValue == 50_000 && r.HouseValue == (decimal) houseValue)))
                 .ReturnsAsync(new[]
                 {
                     new ThirdPartyHomeInsuranceResponse { MonthlyPayment = 30 }
