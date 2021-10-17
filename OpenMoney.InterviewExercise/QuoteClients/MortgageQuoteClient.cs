@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OpenMoney.InterviewExercise.BusinessLogic;
 using OpenMoney.InterviewExercise.Enums;
 using OpenMoney.InterviewExercise.Models;
 using OpenMoney.InterviewExercise.Models.Quotes;
@@ -25,11 +28,11 @@ namespace OpenMoney.InterviewExercise.QuoteClients
         
         public async Task<MortgageQuote> GetQuote(GetQuotesRequest getQuotesRequest)
         {
-            if(getQuotesRequest.HouseValue >= HouseLoanMaxThreshold)
+            if(getQuotesRequest.HouseValue > HouseLoanMaxThreshold)
             {
                 return new MortgageQuote
                 {
-                    Error = new Error(ErrorCode.HouseThreSholdValue,"Max House value must not be greater than or equal to 10million.")
+                    Error = new Error(ErrorCode.HouseThreSholdValue,"Max House value must not be greater than  10million.")
                 };
             }
             var request = new ThirdPartyMortgageRequest
@@ -37,33 +40,26 @@ namespace OpenMoney.InterviewExercise.QuoteClients
                 MortgageAmount = (decimal) getQuotesRequest.MortgageAmount
             };
 
-            var response = await _api.GetQuotes(request);
-
-            if(response == null)
+           
+            var responses = await _api.GetQuotes(request);
+            var cheapestMonthlyQuote = QuoteHelper.GetMinimumQuoteResponse(responses);
+            if (cheapestMonthlyQuote.Error.Message.ToString() != "")
             {
                 return new MortgageQuote
                 {
-                    Error = new Error(ErrorCode.ApiReturnNull, "No Quote Found")
+                    Error = new Error(cheapestMonthlyQuote.Error.Code, cheapestMonthlyQuote.Error.Message)
                 };
             }
-
-            var mortgageList = response.ToList();
-
-            if(mortgageList.Count() < 1)
+            else
             {
                 return new MortgageQuote
                 {
-                    Error = new Error(ErrorCode.ApiReturnEmpty, "No Quote Found")
+                    MonthlyPayment = cheapestMonthlyQuote.MonthlyPayment
                 };
+
             }
+       
 
-            var cheapestMonthlyQuote = response.OrderBy(m => m.MonthlyPayment).FirstOrDefault().MonthlyPayment;
-
-            return new MortgageQuote
-            {
-                MonthlyPayment = (float)cheapestMonthlyQuote
-            };
-            
         }
     }
 }

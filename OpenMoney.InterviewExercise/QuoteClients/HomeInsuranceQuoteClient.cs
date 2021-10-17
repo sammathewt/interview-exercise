@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using OpenMoney.InterviewExercise.BusinessLogic;
+using OpenMoney.InterviewExercise.Enums;
 using OpenMoney.InterviewExercise.Models;
 using OpenMoney.InterviewExercise.Models.Quotes;
 using OpenMoney.InterviewExercise.ThirdParties;
@@ -7,7 +12,7 @@ namespace OpenMoney.InterviewExercise.QuoteClients
 {
     public interface IHomeInsuranceQuoteClient
     {
-        HomeInsuranceQuote GetQuote(GetQuotesRequest getQuotesRequest);
+        Task<HomeInsuranceQuote> GetQuote(GetQuotesRequest getQuotesRequest);
     }
 
     public class HomeInsuranceQuoteClient : IHomeInsuranceQuoteClient
@@ -21,12 +26,15 @@ namespace OpenMoney.InterviewExercise.QuoteClients
             _api = api;
         }
 
-        public HomeInsuranceQuote GetQuote(GetQuotesRequest getQuotesRequest)
+        public async Task<HomeInsuranceQuote>  GetQuote(GetQuotesRequest getQuotesRequest)
         {
-            // check if request is eligible
-            if (getQuotesRequest.HouseValue > 10_000_000d)
+
+           if (getQuotesRequest.HouseValue > 10_000_000d)
             {
-                return null;
+                return new HomeInsuranceQuote
+                {
+                    Error = new Error(ErrorCode.HouseThreSholdValue, "Max House value must not be greater than  10million.")
+                };
             }
             
             var request = new ThirdPartyHomeInsuranceRequest
@@ -35,28 +43,28 @@ namespace OpenMoney.InterviewExercise.QuoteClients
                 ContentsValue = contentsValue
             };
 
-            var response = _api.GetQuotes(request).GetAwaiter().GetResult().ToArray();
+      
+            var responses = await  _api.GetQuotes(request);
+           
+                var cheapestMonthlyQuote = QuoteHelper.GetMinimumQuoteResponse(responses);
 
-            ThirdPartyHomeInsuranceResponse cheapestQuote = null;
-            
-            for (var i = 0; i < response.Length; i++)
+            if (cheapestMonthlyQuote.Error.Message.ToString() != "")
             {
-                var quote = response[i];
+                return new HomeInsuranceQuote
+                {
+                    Error = new Error(cheapestMonthlyQuote.Error.Code, cheapestMonthlyQuote.Error.Message)
+                };
+                }
+            else
+            {
+                return new HomeInsuranceQuote
+                {
+                  MonthlyPayment =cheapestMonthlyQuote.MonthlyPayment
+                };
 
-                if (cheapestQuote == null)
-                {
-                    cheapestQuote = quote;
-                }
-                else if (cheapestQuote.MonthlyPayment > quote.MonthlyPayment)
-                {
-                    cheapestQuote = quote;
-                }
             }
-            
-            return new HomeInsuranceQuote
-            {
-                MonthlyPayment = (float) cheapestQuote.MonthlyPayment
-            };
+
         }
+ 
     }
 }
