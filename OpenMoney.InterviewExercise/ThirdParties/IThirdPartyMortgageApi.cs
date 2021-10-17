@@ -22,7 +22,7 @@ namespace OpenMoney.InterviewExercise.ThirdParties
     /// <summary>
     /// Don't change this model! 
     /// </summary>
-    public class ThirdPartyMortgageResponse
+    public class ThirdPartyMortgageResponse : IQuoteResponse
     {
         public decimal MonthlyPayment { get; set; }
     }

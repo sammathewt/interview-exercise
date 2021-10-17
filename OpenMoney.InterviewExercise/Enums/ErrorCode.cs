@@ -10,6 +10,7 @@ namespace OpenMoney.InterviewExercise.Enums
     {
         ApiReturnNull = 1,
         ApiReturnEmpty = 2,
-        HouseThreSholdValue =3
+        HouseThreSholdValue =3,
+        UnKnownError=4
     }
 }

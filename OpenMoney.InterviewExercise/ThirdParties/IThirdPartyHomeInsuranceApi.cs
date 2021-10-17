@@ -23,8 +23,8 @@ namespace OpenMoney.InterviewExercise.ThirdParties
     /// <summary>
     /// Don't change this model! 
     /// </summary>
-    public class ThirdPartyHomeInsuranceResponse
+    public class ThirdPartyHomeInsuranceResponse : IQuoteResponse
     {
-        public float MonthlyPayment { get; set; }
+        public decimal MonthlyPayment { get; set; }
     }
 }
